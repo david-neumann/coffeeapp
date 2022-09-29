@@ -22,7 +22,7 @@ const Home = () => {
 
   return (
     <main className='m-8'>
-      <h1 className='text-3xl font-extrabold text-coffee mb-6'>
+      <h1 className='text-3xl font-extrabold text-coffee mb-10 underline decoration-4 underline-offset-4 decoration-iconorange'>
         Choose a brew method to get started
       </h1>
       <section className='flex flex-wrap justify-between gap-y-3'>
