@@ -9,11 +9,12 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // Connect to database
-mongoose.connect('mongodb://localhost:27017/bountydb', () =>
+mongoose.connect('mongodb://localhost:27017/coffeedb', () =>
   console.log('Connected to the database.')
 );
 
 // Routes
+app.use('/api/brewmethods', require('./routes/brewMethodRouter'));
 
 // Error handler
 app.use((err, req, res, next) => {
