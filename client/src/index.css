@@ -1,3 +1,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'Wotfard';
+  src: url('../wotfard-regular-webfont.woff2');
+}
+
+@font-face {
+  font-family: 'Caslon Doric Bold';
+  src: url('../fonts/CaslonDoric-Bold-Trial.otf');
+}
+
+@font-face {
+  font-family: 'Caslon Doric Extrabold';
+  src: url('../fonts/CaslonDoric-Extrabold-Trial.otf');
+}
+
+@font-face {
+  font-family: 'Caslon Doric Light';
+  src: url('../fonts/CaslonDoric-Light-Trial.otf');
+}
+
+@font-face {
+  font-family: 'Caslon Doric Medium';
+  src: url('../fonts/CaslonDoric-Medium-Trial.otf');
+}
+
+@font-face {
+  font-family: 'Caslon Doric';
+  src: url('../fonts/CaslonDoric-Regular-Trial.otf');
+}
+
+@font-face {
+  font-family: 'Caslon Doric Semibold';
+  src: url('../fonts/CaslonDoric-Semibold-Trial.otf');
+}
+
+@font-face {
+  font-family: 'Caslon Doric Thin';
+  src: url('../fonts/CaslonDoric-Thin-Trial.otf');
+}
