@@ -14,6 +14,11 @@ const logEntrySchema = new Schema({
     type: Number,
     required: true,
   },
+  grinderName: {
+    type: Schema.Types.ObjectId,
+    ref: 'Grinder',
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('LogEntry', logEntrySchema);
