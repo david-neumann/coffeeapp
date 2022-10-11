@@ -1,11 +1,14 @@
 import { Link } from 'react-router-dom';
 
-const BrewMethodTile = ({ methodName, iconUrlPath }) => {
+const BrewMethodTile = ({ methodName, iconUrlPath, setId, _id }) => {
   const methodUrlName = methodName.replace(/\s/g, '').toLowerCase();
 
   return (
     <Link to={`/brew/${methodUrlName}`}>
-      <div className='flex flex-col items-center w-28 border border-coffee hover:border-2 hover:border-coffee rounded-5xl'>
+      <div
+        className='flex flex-col items-center w-28 border border-coffee hover:border-[3px] hover:border-coffee rounded-5xl'
+        onClick={() => setId(_id)}
+      >
         <img
           src={`/coffee_icons/${iconUrlPath}`}
           alt={methodName}

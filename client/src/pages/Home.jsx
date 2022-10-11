@@ -1,23 +1,10 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+// import { useState, useEffect } from 'react';
+// import axios from 'axios';
 import BrewMethodTile from '../components/BrewMethodTile';
 
-const Home = () => {
-  const [brewMethods, setBrewMethods] = useState([]);
-
-  const getBrewMethods = () => {
-    axios
-      .get('/api/brewmethods')
-      .then(res => setBrewMethods(res.data))
-      .catch(err => console.log(err));
-  };
-
-  useEffect(() => {
-    getBrewMethods();
-  }, []);
-
+const Home = ({ brewMethods, setId }) => {
   const renderedBrewMethods = brewMethods.map(brewMethod => (
-    <BrewMethodTile {...brewMethod} key={brewMethod._id} />
+    <BrewMethodTile {...brewMethod} setId={setId} key={brewMethod._id} />
   ));
 
   return (

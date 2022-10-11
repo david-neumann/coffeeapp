@@ -1,19 +1,66 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { ThumbsDown, ThumbsUp } from 'react-feather';
 
-const Brew = () => {
-  const initialInputs = {};
+const Brew = ({ brewMethods, currentId }) => {
+  // Get brew method name and url path for header
+  const brewMethodObj = brewMethods.find(method => method._id === currentId);
+  const { methodName, iconUrlPath } = brewMethodObj;
+
+  // Set up initial inputs and state for the brew form
+  const initialInputs = {
+    waterAmount: 250,
+    ratio: 60,
+    grinderName: '',
+    grindSize: 'Medium-Fine',
+  };
+
+  const [brewInputs, setBrewInputs] = useState(initialInputs);
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setBrewInputs(prevInputs => ({
+      ...prevInputs,
+      [name]: value,
+    }));
+  };
+
+  // Automatically calculate the coffee dose based on inputs for water and ratio
+  const calcCoffeeDose = (waterAmount, ratio) => {
+    const denominator = 1000 / waterAmount;
+    const coffeeDose = ratio / denominator;
+    return coffeeDose;
+  };
+
+  const coffeeDose = calcCoffeeDose(brewInputs.waterAmount, brewInputs.ratio);
+
+  // Handle POST request for form submit
+  const addLogEntry = newLogEntry => {
+    axios
+      .post('/api/log', newLogEntry)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    const logObj = {
+      ...brewInputs,
+      coffeeDose,
+    };
+    addLogEntry(logObj);
+  };
 
   return (
     <>
       <header className='flex items-center gap-x-2 bg-emerald-200 rounded-b-[40px] pt-10 pb-6 px-6 mb-8'>
         <img
-          src='/coffee_icons/v60.svg'
+          src={`/coffee_icons/${iconUrlPath}`}
           alt='Hario V60'
           className='mx-2 p-2 w-16 aspect-square bg-stone-50 rounded-3xl'
         />
         <h1 className='text-4xl font-["Caslon_Doric_Bold"] text-coffee underline decoration-4 underline-offset-4 decoration-yellow-100'>
-          Hario V60
+          {methodName}
         </h1>
       </header>
       <main className='mx-8 pb-12'>
@@ -24,7 +71,7 @@ const Brew = () => {
             </span>
           </span>
         </h2>
-        <form className='flex flex-col justify-center'>
+        <form className='flex flex-col justify-center' onSubmit={handleSubmit}>
           <div className='w-full flex gap-x-4 items-center mb-6'>
             <img
               src='/coffee_icons/mug.svg'
@@ -33,14 +80,15 @@ const Brew = () => {
             />
             <div>
               <label className='mb-2 text-coffee'>
-                How much coffee would you like to brew?
+                How much coffee would you like to brew (ml)?
               </label>
               <input
                 type='number'
                 placeholder='250ml'
                 name='waterAmount'
-                // value={}
-                // onChange={}
+                value={brewInputs.waterAmount}
+                onChange={handleChange}
+                onFocus={e => e.target.select()}
                 className='block p-2 w-28 text-coffee font-["Caslon_Doric_Semibold"] rounded border focus:outline-none focus:border focus:border-emerald-400 focus:ring-1 focus:ring-emerald-300'
               />
             </div>
@@ -57,15 +105,13 @@ const Brew = () => {
               </label>
               <select
                 name='ratio'
-                // value={}
-                // onChange={}
+                value={brewInputs.ratio}
+                onChange={handleChange}
                 className='block p-2 w-28 text-coffee font-["Caslon_Doric_Semibold"] rounded border focus:outline-none focus:border focus:border-emerald-400 focus:ring-1 focus:ring-emerald-300'
               >
                 <option value='50'>50g/liter</option>
                 <option value='55'>55g/liter</option>
-                <option value='60' selected>
-                  60g/liter
-                </option>
+                <option value='60'>60g/liter</option>
                 <option value='65'>65g/liter</option>
                 <option value='70'>70g/liter</option>
                 <option value='75'>75g/liter</option>
@@ -79,17 +125,21 @@ const Brew = () => {
               className='px-3 w-[90px] aspect-square bg-cyan-50 rounded-3xl shadow-md'
             />
             <div>
-              <label className='mb-2 text-coffee'>
+              <p className='mb-2 text-coffee'>
                 Based on your preferred ratio, grind this amount of coffee (g):
-              </label>
-              <input
+              </p>
+              <p className='p-2 w-28 text-coffee font-["Caslon_Doric_Semibold"] rounded border'>
+                {Number.parseFloat(coffeeDose).toFixed(1)}
+              </p>
+
+              {/* <input
                 type='number'
                 disabled
                 name='coffeeDose'
-                value={15}
-                // onChange={}
+                value={coffeeDose}
+                // onChange={handleChange}
                 className='block p-2 w-28 text-coffee font-["Caslon_Doric_Semibold"] rounded border focus:outline-none focus:border focus:border-emerald-400 focus:ring-1 focus:ring-emerald-300'
-              />
+              /> */}
             </div>
           </div>
 
@@ -109,8 +159,8 @@ const Brew = () => {
                 type='text'
                 placeholder='Fellow Ode'
                 name='grinderName'
-                // value={}
-                // onChange={}
+                value={brewInputs.grinderName}
+                onChange={handleChange}
                 className='block p-2 w-full text-coffee font-["Caslon_Doric_Semibold"] rounded border focus:outline-none focus:border focus:border-emerald-400 focus:ring-1 focus:ring-emerald-300'
               />
             </div>
@@ -125,17 +175,15 @@ const Brew = () => {
               <label className='mb-2 text-coffee'>Select a grind size:</label>
               <select
                 name='grindSize'
-                // value={}
-                // onChange={}
+                value={brewInputs.grindSize}
+                onChange={handleChange}
                 className='block p-2 w-44 text-coffee font-["Caslon_Doric_Semibold"] rounded border focus:outline-none focus:border focus:border-emerald-400 focus:ring-1 focus:ring-emerald-300'
               >
-                <option value='fine'>Fine</option>
-                <option value='medium-fine' selected>
-                  Medium-Fine
-                </option>
-                <option value='medium'>Medium</option>
-                <option value='medium-coarse'>Medium-Coarse</option>
-                <option value='coarse'>Coarse</option>
+                <option value='Fine'>Fine</option>
+                <option value='Medium-Fine'>Medium-Fine</option>
+                <option value='Medium'>Medium</option>
+                <option value='Medium-Coarse'>Medium-Coarse</option>
+                <option value='Coarse'>Coarse</option>
               </select>
             </div>
           </div>

@@ -15,7 +15,6 @@ mongoose.connect('mongodb://localhost:27017/coffeedb', () =>
 
 // Routes
 app.use('/api/brewmethods', require('./routes/brewMethodRouter'));
-app.use('/api/grinders', require('./routes/grinderRouter'));
 app.use('/api/log', require('./routes/logRouter'));
 
 // Error handler
