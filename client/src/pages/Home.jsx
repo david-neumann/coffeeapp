@@ -1,5 +1,5 @@
-// import { useState, useEffect } from 'react';
-// import axios from 'axios';
+import { Link } from 'react-router-dom';
+import Header from '../components/Header';
 import BrewMethodTile from '../components/BrewMethodTile';
 
 const Home = ({ brewMethods, setId }) => {
@@ -9,15 +9,18 @@ const Home = ({ brewMethods, setId }) => {
 
   return (
     <>
-      <header className='bg-emerald-200 rounded-b-[40px] pt-10 pb-2 px-8'>
-        <h1 className='text-3xl font-["Caslon_Doric_Bold"] text-coffee mb-10 underline decoration-4 underline-offset-4 decoration-yellow-100'>
-          Choose a brew method to get started
-        </h1>
-      </header>
+      <Header headerText={'Choose a brew method to get started'} />
       <main className='m-8'>
-        <section className='flex flex-wrap justify-between gap-y-3'>
+        <section className='flex flex-wrap justify-between gap-y-3 mb-12'>
           {renderedBrewMethods}
         </section>
+        <div className='w-full'>
+          <Link to={'/coffeelog'}>
+            <button className='bg-emerald-200 py-3 px-12 rounded-2xl font-["Caslon_Doric_Bold"] text-xl text-coffee mx-auto block'>
+              View your brew log
+            </button>
+          </Link>
+        </div>
       </main>
     </>
   );

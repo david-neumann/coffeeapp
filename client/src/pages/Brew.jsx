@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Header from '../components/Header';
 import { ThumbsDown, ThumbsUp } from 'react-feather';
 
 const Brew = ({ brewMethods, currentId }) => {
@@ -47,22 +48,15 @@ const Brew = ({ brewMethods, currentId }) => {
     const logObj = {
       ...brewInputs,
       coffeeDose,
+      brewMethod: currentId,
     };
     addLogEntry(logObj);
   };
 
   return (
     <>
-      <header className='flex items-center gap-x-2 bg-emerald-200 rounded-b-[40px] pt-10 pb-6 px-6 mb-8'>
-        <img
-          src={`/coffee_icons/${iconUrlPath}`}
-          alt='Hario V60'
-          className='mx-2 p-2 w-16 aspect-square bg-stone-50 rounded-3xl'
-        />
-        <h1 className='text-4xl font-["Caslon_Doric_Bold"] text-coffee underline decoration-4 underline-offset-4 decoration-yellow-100'>
-          {methodName}
-        </h1>
-      </header>
+      <Header methodName={methodName} iconUrlPath={iconUrlPath} />
+
       <main className='mx-8 pb-12'>
         <h2 className='font-["Caslon_Doric_Semibold"] text-xl mb-12 w-full text-center'>
           <span className='before:block before:absolute before:h-5/6 before:w-11/12 before:left-4 before:top-[2px] before:-inset-1 before:-skew-y-2 before:bg-gradient-to-tr from-purple-200 to-purple-50 relative inline-block'>
@@ -131,15 +125,6 @@ const Brew = ({ brewMethods, currentId }) => {
               <p className='p-2 w-28 text-coffee font-["Caslon_Doric_Semibold"] rounded border'>
                 {Number.parseFloat(coffeeDose).toFixed(1)}
               </p>
-
-              {/* <input
-                type='number'
-                disabled
-                name='coffeeDose'
-                value={coffeeDose}
-                // onChange={handleChange}
-                className='block p-2 w-28 text-coffee font-["Caslon_Doric_Semibold"] rounded border focus:outline-none focus:border focus:border-emerald-400 focus:ring-1 focus:ring-emerald-300'
-              /> */}
             </div>
           </div>
 
