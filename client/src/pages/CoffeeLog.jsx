@@ -16,8 +16,6 @@ const CoffeeLog = ({ brewMethods }) => {
 
   useEffect(() => getLogEntries(), []);
 
-  console.log(logEntries);
-
   const renderedLogEntries = logEntries.map((log, index) => (
     <LogEntry
       {...log}
