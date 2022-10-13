@@ -1,8 +1,13 @@
+import { useState } from 'react';
+import LogEntryExpanded from './LogEntryExpanded';
 import { ThumbsDown, ThumbsUp } from 'react-feather';
 
-const LogEntryCollapsed = ({
+const LogEntry = ({
   brewMethod,
   ratio,
+  waterAmount,
+  coffeeDose,
+  grinderName,
   grindSize,
   liked,
   brewMethods,
@@ -10,8 +15,25 @@ const LogEntryCollapsed = ({
   const entryBrewMethod = brewMethods.find(method => method._id === brewMethod);
   const { methodName, iconUrlPath } = entryBrewMethod;
 
-  return (
-    <div className='bg-stone-100 w-full h-12 px-4 rounded flex justify-between items-center font-["Caslon_Doric_Semibold"] shadow mb-3'>
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return isExpanded ? (
+    <LogEntryExpanded
+      liked={liked}
+      setIsExpanded={setIsExpanded}
+      methodName={methodName}
+      iconUrlPath={iconUrlPath}
+      ratio={ratio}
+      waterAmount={waterAmount}
+      coffeeDose={coffeeDose}
+      grinderName={grinderName}
+      grindSize={grindSize}
+    />
+  ) : (
+    <div
+      className='bg-stone-100 w-full h-12 px-4 rounded flex justify-between items-center font-["Caslon_Doric_Semibold"] shadow mb-3 cursor-pointer'
+      onClick={() => setIsExpanded(true)}
+    >
       <img
         src={`/coffee_icons/${iconUrlPath}`}
         alt={methodName}
@@ -36,4 +58,4 @@ const LogEntryCollapsed = ({
   );
 };
 
-export default LogEntryCollapsed;
+export default LogEntry;

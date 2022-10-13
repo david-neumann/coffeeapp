@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from '../components/Header';
-import LogEntryCollapsed from '../components/LogEntryCollapsed';
+import LogEntry from '../components/LogEntry';
 import { Link } from 'react-router-dom';
 
 const CoffeeLog = ({ brewMethods }) => {
@@ -16,8 +16,10 @@ const CoffeeLog = ({ brewMethods }) => {
 
   useEffect(() => getLogEntries(), []);
 
+  console.log(logEntries);
+
   const renderedLogEntries = logEntries.map((log, index) => (
-    <LogEntryCollapsed {...log} brewMethods={brewMethods} key={index} />
+    <LogEntry {...log} brewMethods={brewMethods} key={index} />
   ));
 
   return (
