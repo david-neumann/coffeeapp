@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from '../components/Header';
 import LogEntryCollapsed from '../components/LogEntryCollapsed';
+import { Link } from 'react-router-dom';
 
 const CoffeeLog = ({ brewMethods }) => {
   const [logEntries, setLogEntries] = useState([]);
@@ -22,7 +23,14 @@ const CoffeeLog = ({ brewMethods }) => {
   return (
     <>
       <Header headerText={'Your coffee log'} />
-      <main className='mx-8 mt-12'>{renderedLogEntries}</main>
+      <main className='mx-8 mt-12'>
+        {renderedLogEntries}
+        <Link to={'/'}>
+          <button className='block mx-auto mt-12 bg-emerald-200 py-3 px-12 rounded-2xl font-["Caslon_Doric_Bold"] text-xl text-coffee'>
+            Return to Home
+          </button>
+        </Link>
+      </main>
     </>
   );
 };
