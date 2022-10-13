@@ -11,6 +11,8 @@ const LogEntry = ({
   grindSize,
   liked,
   brewMethods,
+  _id,
+  setLogEntries,
 }) => {
   const entryBrewMethod = brewMethods.find(method => method._id === brewMethod);
   const { methodName, iconUrlPath } = entryBrewMethod;
@@ -21,6 +23,7 @@ const LogEntry = ({
     <LogEntryExpanded
       liked={liked}
       setIsExpanded={setIsExpanded}
+      setLogEntries={setLogEntries}
       methodName={methodName}
       iconUrlPath={iconUrlPath}
       ratio={ratio}
@@ -28,6 +31,7 @@ const LogEntry = ({
       coffeeDose={coffeeDose}
       grinderName={grinderName}
       grindSize={grindSize}
+      id={_id}
     />
   ) : (
     <div

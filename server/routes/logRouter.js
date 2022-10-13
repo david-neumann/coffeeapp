@@ -26,4 +26,18 @@ logRouter
     });
   });
 
+logRouter.route('/:logId').delete((req, res, next) => {
+  LogEntry.findOneAndDelete({ _id: req.params.logId }, (err, deletedLog) => {
+    if (err) {
+      res.status(500);
+      return next(err);
+    }
+    return res
+      .status(200)
+      .send(
+        `Successfully deleted the folloowing log entry from the database: ${deletedLog}`
+      );
+  });
+});
+
 module.exports = logRouter;

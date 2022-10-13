@@ -1,8 +1,10 @@
-import { ThumbsDown, ThumbsUp } from 'react-feather';
+import axios from 'axios';
+import { ThumbsDown, ThumbsUp, Trash2 } from 'react-feather';
 
 const LogEntryExpanded = ({
   liked,
   setIsExpanded,
+  setLogEntries,
   methodName,
   iconUrlPath,
   ratio,
@@ -10,10 +12,22 @@ const LogEntryExpanded = ({
   coffeeDose,
   grinderName,
   grindSize,
+  id,
 }) => {
+  const deleteLogEntry = logId => {
+    axios
+      .delete(`/api/log/${logId}`)
+      .then(res =>
+        setLogEntries(prevLogEntries =>
+          prevLogEntries.filter(logEntry => logEntry._id !== logId)
+        )
+      )
+      .catch(err => console.log(err));
+  };
+
   return (
     <div
-      className='bg-stone-100 w-full p-4 rounded items-center font-["Caslon_Doric_Semibold"] shadow mb-3 cursor-pointer'
+      className='bg-stone-100 w-full p-4 rounded items-center font-["Caslon_Doric_Semibold"] shadow mb-3 cursor-pointer relative'
       onClick={() => setIsExpanded(false)}
     >
       <div className='flex justify-between items-center mb-3'>
@@ -69,12 +83,12 @@ const LogEntryExpanded = ({
               Coffee
             </p>
             <p className='font-["Caslon_Doric_Bold"] text-coffee text-lg'>
-              {coffeeDose}g
+              {Number.parseFloat(coffeeDose).toFixed(1)}g
             </p>
           </div>
         </div>
 
-        <div className='flex gap-x-12'>
+        <div className='flex gap-x-10'>
           <div>
             <p className='font-["Caslon_Doric_Light"] text-coffee text-xs uppercase'>
               Grinder
@@ -92,6 +106,12 @@ const LogEntryExpanded = ({
             </p>
           </div>
         </div>
+      </div>
+      <div
+        className='absolute right-3 bottom-3 p-[3px] bg-stone-50 rounded shadow'
+        onClick={() => deleteLogEntry(id)}
+      >
+        <Trash2 size={24} color='#62453C' strokeWidth={2} />
       </div>
     </div>
   );

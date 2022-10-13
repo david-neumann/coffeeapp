@@ -19,7 +19,12 @@ const CoffeeLog = ({ brewMethods }) => {
   console.log(logEntries);
 
   const renderedLogEntries = logEntries.map((log, index) => (
-    <LogEntry {...log} brewMethods={brewMethods} key={index} />
+    <LogEntry
+      {...log}
+      brewMethods={brewMethods}
+      setLogEntries={setLogEntries}
+      key={index}
+    />
   ));
 
   return (
