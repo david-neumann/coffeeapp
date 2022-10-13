@@ -6,7 +6,7 @@ const BrewMethodTile = ({ methodName, iconUrlPath, setId, _id }) => {
   return (
     <Link to={`/brew/${methodUrlName}`}>
       <div
-        className='flex flex-col items-center w-28 border border-coffee hover:border-[3px] hover:border-coffee rounded-5xl'
+        className='flex flex-col items-center w-28 hover:border-[3px] hover:border-coffee rounded-5xl shadow'
         onClick={() => setId(_id)}
       >
         <img

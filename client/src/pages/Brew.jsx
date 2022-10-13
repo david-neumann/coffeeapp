@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from '../components/Header';
-import { ThumbsDown, ThumbsUp } from 'react-feather';
+import LikedBrewIcon from '../components/LikedBrewIcon';
+import { useNavigate } from 'react-router-dom';
 
 const Brew = ({ brewMethods, currentId }) => {
   // Get brew method name and url path for header
@@ -26,6 +27,9 @@ const Brew = ({ brewMethods, currentId }) => {
     }));
   };
 
+  // State for .liked property in log entry
+  const [likedBrew, setLikedBrew] = useState('');
+
   // Automatically calculate the coffee dose based on inputs for water and ratio
   const calcCoffeeDose = (waterAmount, ratio) => {
     const denominator = 1000 / waterAmount;
@@ -43,14 +47,19 @@ const Brew = ({ brewMethods, currentId }) => {
       .catch(err => console.log(err));
   };
 
+  const navigate = useNavigate();
+
   const handleSubmit = e => {
     e.preventDefault();
     const logObj = {
       ...brewInputs,
       coffeeDose,
+      liked: likedBrew,
       brewMethod: currentId,
     };
     addLogEntry(logObj);
+    setLikedBrew('');
+    navigate('/');
   };
 
   return (
@@ -142,7 +151,7 @@ const Brew = ({ brewMethods, currentId }) => {
               </label>
               <input
                 type='text'
-                placeholder='Fellow Ode'
+                placeholder='e.g., Fellow Ode'
                 name='grinderName'
                 value={brewInputs.grinderName}
                 onChange={handleChange}
@@ -180,14 +189,7 @@ const Brew = ({ brewMethods, currentId }) => {
             </span>
           </h2>
           <p className='text-center mb-8'>Did you like it?</p>
-          <div className='flex justify-center gap-x-8 mb-12'>
-            <div className='hover:cursor-pointer'>
-              <ThumbsDown size={48} color='#e11d48' strokeWidth={2.5} />
-            </div>
-            <div className='hover:cursor-pointer'>
-              <ThumbsUp size={48} color='#10b981' strokeWidth={2.5} />
-            </div>
-          </div>
+          <LikedBrewIcon likedBrew={likedBrew} setLikedBrew={setLikedBrew} />
           <button className='bg-emerald-200 py-3 px-12 rounded-2xl font-["Caslon_Doric_Bold"] text-xl text-coffee place-self-center'>
             Save your brew!
           </button>

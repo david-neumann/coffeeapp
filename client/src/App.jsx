@@ -37,7 +37,10 @@ const App = () => {
             <Brew brewMethods={brewMethods} currentId={currentBrewMethodId} />
           }
         />
-        <Route path='/coffeelog' element={<CoffeeLog />} />
+        <Route
+          path='/coffeelog'
+          element={<CoffeeLog brewMethods={brewMethods} />}
+        />
       </Routes>
     </div>
   );
